@@ -74,11 +74,13 @@ function draw() {
   const { x: p1x, y: p1y, width: p1width, height: p1height } = game.player1;
   const { x: p2x, y: p2y, width: p2width, height: p2height } = game.player2;
 
+  // player1 paddle collision
   if (p1x+(p1width*2) > xpos && ( ypos > p1y && ypos < p1y+p1height)) {
     xdirection *= -1;
     game.player1.height *= game.penalty;
   }
 
+  // player2 paddle collision
   if (xpos > p2x-p2width && ( ypos > p2y && ypos < p2y+p2height)) {
     xdirection *= -1;
     game.player2.height *= game.penalty;
@@ -90,6 +92,7 @@ function draw() {
   paddles();
   controls();
   score();
+  startOverText();
 }
 
 function score(){
@@ -100,6 +103,12 @@ function score(){
   textAlign(CENTER);
   fill(0);
   text(`${p1score}-${p2score}`, width/2-50, 30);
+}
+
+function startOverText(){
+  textSize(14);
+  textAlign(CENTER);
+  text(`Press SPACE to start over`, width/2-50, 50);
 }
 
 function paddles(){
@@ -116,27 +125,42 @@ function controls(){
   const { x: p1x, y: p1y, width: p1width, height: p1height } = game.player1;
   const { x: p2x, y: p2y, width: p2width, height: p2height } = game.player2;
 
+  // player1 up arrow
   if (keyIsDown(UP_ARROW)){
     if (p2y > 0){
       game.player2.y -= game.paddleSpeed
     } 
   }
   
+  // player2 down arrow
   if (keyIsDown(DOWN_ARROW)){
     if (p2y < height-p2height){
       game.player2.y += game.paddleSpeed
     }
   }
 
+  // player1 W key
   if (keyIsDown(87)){
     if (p1y > 0){
       game.player1.y -= game.paddleSpeed
     } 
   }
 
+  // player1 S key
   if (keyIsDown(83)){
     if (p1y < height-p1height){
       game.player1.y += game.paddleSpeed
     }
+  }
+
+  // start over with space
+  if (keyIsDown(32)){
+    xpos = width / 2;
+    ypos = height / 2;
+    game.player1.height = 200;
+    game.player1.score = 0;
+
+    game.player2.height = 200;
+    game.player2.score = 0;
   }
 }
