@@ -64,6 +64,7 @@ function draw() {
     ypos = height / 2;
     game.player1.height = 200;
     game.player2.height = 200;
+    game.ball.xspeed = 14;
   }
 
   // bounces off up and down
@@ -78,12 +79,14 @@ function draw() {
   if (p1x+(p1width*2) > xpos && ( ypos > p1y && ypos < p1y+p1height)) {
     xdirection *= -1;
     game.player1.height *= game.penalty;
+    game.ball.xspeed += 2;
   }
 
   // player2 paddle collision
   if (xpos > p2x-p2width && ( ypos > p2y && ypos < p2y+p2height)) {
     xdirection *= -1;
     game.player2.height *= game.penalty;
+    game.ball.xspeed += 2;
   }
 
   // Draw the shape
@@ -162,5 +165,7 @@ function controls(){
 
     game.player2.height = 200;
     game.player2.score = 0;
+
+    game.ball.xspeed = 14;
   }
 }
